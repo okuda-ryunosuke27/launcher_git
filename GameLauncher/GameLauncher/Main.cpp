@@ -3,7 +3,7 @@
 void Main()
 {
 	// 背景の色を設定する | Set the background color
-	Scene::SetBackground(ColorF{ 0.7, 0.8, 0.7 });
+	Scene::SetBackground(ColorF{ 0.3, 0.8, 0.7 });
 
 	// 画像ファイルからテクスチャを作成する | Create a texture from an image file
 	const Texture texture{ U"example/windmill.png" };
@@ -21,6 +21,7 @@ void Main()
 	// ボタンを押した回数 | Number of button presses
 	int32 count = 0;
 
+	
 	// チェックボックスの状態 | Checkbox state
 	bool checked = false;
 

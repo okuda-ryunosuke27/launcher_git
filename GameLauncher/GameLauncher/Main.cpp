@@ -34,45 +34,11 @@ void Main()
 	// プレイヤーが右を向いているか | Whether player is facing right
 	bool isPlayerFacingRight = true;
 
+	System::cre
 	while (System::Update())
 	{
-		// テクスチャを描く | Draw the texture
-		texture.draw(20, 20);
+		
 
-		// テキストを描く | Draw text
-		font(U"Hello, Siv3D!🎮").draw(64, Vec2{ 20, 340 }, ColorF{ 0.2, 0.4, 0.8 });
-
-		// 指定した範囲内にテキストを描く | Draw text within a specified area
-		font(U"Siv3D (シブスリーディー) は、ゲームやアプリを楽しく簡単な C++ コードで開発できるフレームワークです。")
-			.draw(18, Rect{ 20, 430, 480, 200 }, Palette::Black);
-
-		// 長方形を描く | Draw a rectangle
-		Rect{ 540, 20, 80, 80 }.draw();
-
-		// 角丸長方形を描く | Draw a rounded rectangle
-		RoundRect{ 680, 20, 80, 200, 20 }.draw(ColorF{ 0.0, 0.4, 0.6 });
-
-		// 円を描く | Draw a circle
-		Circle{ 580, 180, 40 }.draw(Palette::Seagreen);
-
-		// 矢印を描く | Draw an arrow
-		Line{ 540, 330, 760, 260 }.drawArrow(8, SizeF{ 20, 20 }, ColorF{ 0.4 });
-
-		// 半透明の円を描く | Draw a semi-transparent circle
-		Circle{ Cursor::Pos(), 40 }.draw(ColorF{ 1.0, 0.0, 0.0, 0.5 });
-
-		// ボタン | Button
-		if (SimpleGUI::Button(U"count: {}"_fmt(count), Vec2{ 520, 370 }, 120, (checked == false)))
-		{
-			// カウントを増やす | Increase the count
-			++count;
-		}
-
-		// チェックボックス | Checkbox
-		SimpleGUI::CheckBox(checked, U"Lock \U000F033E", Vec2{ 660, 370 }, 120);
-
-		// スライダー | Slider
-		SimpleGUI::Slider(U"speed: {:.1f}"_fmt(speed), speed, 100, 400, Vec2{ 520, 420 }, 140, 120);
 
 		// 左キーが押されていたら | If left key is pressed
 		if (KeyLeft.pressed())

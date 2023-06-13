@@ -19,7 +19,37 @@ namespace UI
 
 	constexpr RectF PlayButton{ 900, 340, 220, 85 };
 
+	constexpr ColorF PlayButtonColor{ 0.0, 0.67, 1.0 };
+
+	constexpr RectF ControlArea{ 900, 430, 220, 170 };
+
+	constexpr ColorF InfoAreaMouseOverColor{ 1.0, 0.95, 0.9 };
+
+	constexpr ColorF TextColor{ 0.2 };
+
+	constexpr double InfoAreaRound = 8.0;
 }
+
+/**
+* 構造体の概要
+* ランチャーに格納するゲームの情報
+*/
+struct Game
+{
+	// ゲームのタイトル
+	String title;
+
+	// ゲーム実行ファイル または URL
+	FilePath path;
+
+	//ゲームの説明文
+	String desc;
+
+	//ランチャーの表示優先度
+	int32 priority = 0;
+};
+
+
 
 
 void Main()

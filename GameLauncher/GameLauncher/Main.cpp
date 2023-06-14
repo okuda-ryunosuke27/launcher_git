@@ -1,5 +1,10 @@
 ﻿# include <Siv3D.hpp> // OpenSiv3D v0.6.10
 
+/**
+* UIオプションの設定
+* 各タイルのサイズだったり
+* 色だったりを設定しています。
+*/
 namespace UI
 {
 	//タイルの基本サイズ
@@ -49,7 +54,27 @@ struct Game
 	int32 priority = 0;
 };
 
+/**
+* ゲーム情報をロードする関数
+*/
+Array<Game> LoadGames()
+{
+	//ゲームリスト
+	Array<Game> games;
 
+	//ホームディレクトリ
+	const FilePath homeDirectory = FileSystem::CurrentDirectory();
+
+	//ホームディレクトリにあるitemを検索
+	for (const FilePath& gameDirectory : FileSystem::DirectoryContents(homeDirectory, Recursive::No))
+	{
+		//フォルダでない時はスキップ
+		if (not FileSystem::IsDirectory(gameDirectory))
+		{
+			continue;
+		}
+	}
+}
 
 
 void Main()

@@ -47,6 +47,9 @@ struct Game
 	// ゲーム実行ファイル または URL
 	FilePath path;
 
+	//ゲーム画面
+	Texture texture;
+
 	//ゲームの説明文
 	String desc;
 
@@ -73,7 +76,31 @@ Array<Game> LoadGames()
 		{
 			continue;
 		}
+
+		//launcher_infoを読み込む
+		const FilePath iniPath = (gameDirectory + U"launcher_info.txt");
+		const INI ini{ iniPath };
+
+		//読み込み失敗
+		if (not ini)
+		{
+			continue;
+		}
+
+		//ゲーム情報を読み込む
+		Game game;
+		game.title = ini[U"Game.title"];
+		game.texture = Texture{ Image{ gameDirectory + ini[U"game.image"] }.squareClipped(),TextureDesc::Mipped };
+		game.desc = ini[U"Game.desc"].replaced(U"\\n", U"\n");
+		game.priority = ini.get<int32>(U"Game.priority");
+
+		const String path = game.path = ini[U"Game.path"];
+
+		games << game;
 	}
+
+	//プライオリティに基づいてゲームをソート
+	return games.sort_by([](const Game& a, const Game& b) {return a.priority > b.priority; });
 }
 
 

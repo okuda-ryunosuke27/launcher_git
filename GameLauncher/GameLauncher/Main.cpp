@@ -200,6 +200,38 @@ void Main()
 		{
 			targetTileOffsetX -= UI::TileSize;
 		}
+
+
+		//スムーズスクロール
+		tileOffsetX = Math::SmoothDamp(tileOffsetX, targetTileOffsetX, tileOffsetXVelocity, 0.1);
 	}
+
+	//描画
+	for (auto [i, g] : Indexed(games))
+	{
+		const Vec2 center = UI::BaseTilePos.movedBy(tileOffsetX + i * UI::TileSize, 0);
+		const RectF tile{ Arg::center = center,(UI::TileSize - 20) };
+
+		//選択されたいたら、タイルの枠を描画
+		if (selectGameIndex == i)
+		{
+			tile.stretched(6)
+				.drawShadow(Vec2{ 0,3 }, 8, 0)
+				.draw(UI::BackGroundColor)
+				.drawFrame(4, 0, ColorF(UI::TileFrmaeColor, 0.6 + Periodic::Sine0_1(1s) * 0.4));
+		}
+
+		//ゲーム画像を描画
+		tile(g.texture).drawAt(center);
+
+		if (tile.mouseOver())
+		{
+			Cursor::RequestStyle(CursorStyle::Hand);
+		}
+	}
+
+	//タイトルと説明
+	UI::StaffAree.rounded(UI::InfoAreaRound).draw(UI::InfoArae.mouseOver() ? UI::InfoAreaMouseOverColor : ColorF(1.0));
+	
 
 }

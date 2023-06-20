@@ -108,4 +108,98 @@ void Main()
 {
 	//フルスクリーン
 	Window::SetFullscreen(true);
+	Scene::SetBackground(UI::BackGroundColor);
+
+	//フォント
+	FontAsset::Register(U"Game.Title", 42, Typeface::Heavy);
+	FontAsset::Register(U"Game.Desc", 26);
+	FontAsset::Register(U"Game.Small", 16);
+	FontAsset::Register(U"Game.Play", 30,Typeface::Heavy);
+
+	//再生アイコン
+	TextureAsset::Register(U"Icon.Play", 0xf144_icon, 48);
+
+	//ゲーム情報
+	const Array<Game> games = LoadGames();
+	if (not games)
+	{
+		System::MessageBoxOK(U"ゲームがありません。");
+		return;
+	}
+
+	//実行中のゲームのプロセス
+	Optional<ChildProcess> process;
+
+	//選択しているタイルのインデックス[0, games.size() - 1]
+	size_t selectGameIndex = 0;
+
+	//タイルのスクロール用の変数
+	double tileOffsetX = 0.0, targetTileOffsetX = 0.0, tileOffsetXVelocity = 0.0;
+
+	while (System::Update())
+	{
+		//現在選択されているゲーム
+		const Game& game = games[selectGameIndex];
+
+		//ウィンドウの最小化と復帰
+		if (process)
+		{
+			//プロセスが実行中なら
+			if (process->isRunning())
+			{
+				//ウィンドウを最小化
+				Window::Minimize();
+				continue;
+			}
+			else//プロセスが終了したら
+			{
+				//ウィンドウを復帰
+				Window::Restore();
+				process.reset();
+			}
+		}
+
+		//ゲームの軌道
+		if (UI::PlayButton.leftClicked())
+		{
+			process = ChildProcess{ game.path };
+		}
+
+		//選択しているタイルの変更
+		for (auto i:step(games.size()))
+		{
+			const Vec2 center = UI::BaseTilePos.movedBy(tileOffsetX + i * UI::TileSize, 0);
+			const RectF tile{ Arg::center = center,(UI::TileSize - 20) };
+
+			//タイルがクリックされたら選択
+			if (tile.leftClicked())
+			{
+				selectGameIndex = i;
+			}
+		}
+
+		if (KeyLeft.down())
+		{
+			selectGameIndex = (selectGameIndex > 0) ? (selectGameIndex - 1) : 0;
+		}
+		else if (KeyRight.down())
+		{
+			selectGameIndex = Min(selectGameIndex + 1, games.size() - 1);
+		}
+
+		//タイル表示のスクロール更新
+		const Vec2 center = UI::BaseTilePos.movedBy(targetTileOffsetX + selectGameIndex * UI::TileSize, 0);
+		const RectF tile{ Arg::center = center,(UI::TileSize - 20) };
+
+		//左端、右端のタイルが画面外ならスクロール
+		if (tile.x <= 0)
+		{
+			targetTileOffsetX += UI::TileSize;
+		}
+		else if (Scene::Width() <= tile.tr().x)
+		{
+			targetTileOffsetX -= UI::TileSize;
+		}
+	}
+
 }

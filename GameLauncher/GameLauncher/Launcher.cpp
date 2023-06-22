@@ -25,6 +25,15 @@ void Launcher::Update()
 	}
 	else
 	{
+		//ゲームが起動していない間のランチャーの操作処理
 
+		//ゲームを起動するタイミングで以下の関数を実行
+		procsse = applications["./Game/./.exe"].exepath;
 	}
+}
+
+void Launcher::Draw()const
+{
+	//ランチャーの描画いろいろ
+
 }

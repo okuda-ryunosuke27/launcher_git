@@ -11,16 +11,16 @@ Launcher::Launcher(const FilePath& path) :apploader(path)
 void Launcher::Update()
 {
 	//ゲームが起動中だとtrue、そうでない場合falseとなる
-	if (procsse)
+	if (process)
 	{
-		if (procsse->isRunning())
+		if (process->isRunning())
 		{
 			Window::Minimize();//ゲーム起動中はランチャーを最小化
 		}
 		else
 		{
 			Window::Restore();//ゲームが終了したらランチャーの最小化を解除
-			procsse = none;//ゲームが起動していない状態をセット
+			process = none;//ゲームが起動していない状態をセット
 		}
 	}
 	else
@@ -28,7 +28,7 @@ void Launcher::Update()
 		//ゲームが起動していない間のランチャーの操作処理
 
 		//ゲームを起動するタイミングで以下の関数を実行
-		procsse = applications["./Game/./.exe"].exepath;
+		process = ChildProcess{ U"C:\GFF\launcher_git\GameLauncher\Game\GamejamTeam_I\SqueezeGame.exe" };
 	}
 }
 

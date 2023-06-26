@@ -78,7 +78,8 @@ Array<Application> AppLoader::Load()
 	Array<Application> applications;
 
 	for (unsigned int i = 0; i < folders.size(); i++) {
-		Application temp = { i,FileSystem::BaseName(folders[i]),SearchExePath(folders[i]),SearchScreenShot(folders[i]),SearchInfo(folders[i]),SearchReadMe(folders[i]) };//「なんちゃら/game/ぜんら」でも「なんちゃら/game/ぜんら/」でも挙動は同じ？
+		Application temp = { i,FileSystem::BaseName(folders[i]),SearchExePath(folders[i]),SearchScreenShot(folders[i]),SearchInfo(folders[i]),SearchReadMe(folders[i]) };
+		//「なんちゃら/game/ぜんら」でも「なんちゃら/game/ぜんら/」でも挙動は同じ？
 		applications.push_back(temp);
 	}
 

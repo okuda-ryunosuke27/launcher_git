@@ -1,12 +1,15 @@
 ﻿#pragma once
 #include"AppLoader.h"
 #include <Siv3D.hpp>
+#include <Windows.h>
+#undef CreateProcess
+
 class Launcher
 {
 	private:
 		Array<Application> applications;
 		AppLoader apploader;
-		Optional<ChildProcess> procsse;
+		Optional<ChildProcess> process;
 
 	public:
 		Launcher(const FilePath& path);

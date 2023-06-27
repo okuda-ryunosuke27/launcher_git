@@ -29,6 +29,7 @@ void Launcher::Update()
 
 		//ゲームを起動するタイミングで以下の関数を実行
 		process = ChildProcess{ U"C:\GFF\launcher_git\GameLauncher\Game\GamejamTeam_I\SqueezeGame.exe" };
+		
 	}
 }
 
